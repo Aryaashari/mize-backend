@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('sizes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("users_id")->references("users")->on("id")->cascadeOnDelete();
+            $table->foreignId("users_id")->references("id")->on("users")->cascadeOnDelete();
             $table->string("name")->nullable();
             $table->text("note")->nullable();
             $table->float("panjang_badan")->default(0);
