@@ -16,7 +16,6 @@ class UserController extends Controller
         $fullname = $request->input("fullname");
         $email = $request->input("email");
         $password = $request->input("password");
-        // $confirm_password = $request->input("confirm_password");
 
         try {
 
