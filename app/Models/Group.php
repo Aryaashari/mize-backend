@@ -14,7 +14,7 @@ class Group extends Model
 
 
     // Relation to group_size pivot table
-    public function size() {
+    public function sizes() {
         return $this->belongsToMany(Size::class);
     }
 }
