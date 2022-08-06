@@ -9,6 +9,7 @@ use Illuminate\Validation\ValidationException;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\File;
 
@@ -47,6 +48,7 @@ class UserController extends Controller
             $user = User::create([
                 "fullname" => $fullname,
                 "email" => $email,
+                "profile_photo_path" => "users/profile/user_avatar.png",
                 "password" => Hash::make($password)
             ]);
 
@@ -246,7 +248,7 @@ class UserController extends Controller
                 "created_at" => $user->created_at,
                 "updated_at" => $user->updated_at
             ];
-            
+
             return ResponseApiFormatter::Success("Berhasil edit profile", $responseData);
 
 
