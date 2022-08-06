@@ -45,6 +45,7 @@ class UserController extends Controller
                 ]
             );
 
+            // Create user
             $user = User::create([
                 "fullname" => $fullname,
                 "email" => $email,
@@ -52,6 +53,7 @@ class UserController extends Controller
                 "password" => Hash::make($password)
             ]);
 
+            // Response Success
             $responseData = [
                 "id" => $user->id,
                 "fullname" => $user->fullname,
@@ -106,7 +108,7 @@ class UserController extends Controller
                 return ResponseApiFormatter::Error(null, 401, "Username atau password salah");
             }
 
-            /* === Fitur verifikasi email belum jadi === */
+            /* === Fitur verifikasi email ada === */
             // Cek email sudah diverifikasi atau belum
             // if ($user->email_verified_at == null) {
             //     // Jika belum terverifikasi, kembalikan response error
