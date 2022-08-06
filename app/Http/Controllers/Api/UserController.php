@@ -108,7 +108,7 @@ class UserController extends Controller
                 return ResponseApiFormatter::Error(null, 401, "Username atau password salah");
             }
 
-            /* === Fitur verifikasi email ada === */
+            /* === Fitur verifikasi email belum ada === */
             // Cek email sudah diverifikasi atau belum
             // if ($user->email_verified_at == null) {
             //     // Jika belum terverifikasi, kembalikan response error
