@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -62,8 +63,81 @@ class UserController extends Controller
             $errMessage = explode("(", $error->getMessage());
             return ResponseApiFormatter::Error(null,422,trim($errMessage[0]));
         } catch(\Exception $error) {
-            return ResponseApiFormatter::Error(null,500,$error);
+            return ResponseApiFormatter::Error(null,500,"Sistem sedang bermasalah, silahkan coba lagi nanti");
         }
+
+    }
+
+    public function login(Request $request) {
+
+        try {
+
+            $request->validate(
+                [
+                    "email" => "required|email",
+                    "password" => "required"
+                ],
+                [
+                    "email.required" => "Anda belum mengisi email",
+                    "email.email" => "Anda mengisi format email yang salah",
+
+                    "password.required" => "Anda belum mengisi password"
+                ]
+            );
+
+            // Cek apakah email dan password benar
+            $credentials = request(["email", "password"]);
+            if (!Auth::attempt($credentials)) {
+                // Jika salah kirim response error
+                return ResponseApiFormatter::Error(null, 401, "Username atau password salah");
+            }
+
+
+            // Ambil data user berdasarkan email
+            $user = User::where("email", $request->email)->first();
+
+            // Cek apakah password dari request dan password punya user sama
+            if (!Hash::check($request->password, $user->password)) {
+                // Jika beda kirim response error
+                return ResponseApiFormatter::Error(null, 401, "Username atau password salah");
+            }
+
+            /* === Fitur verifikasi email belum jadi === */
+            // Cek email sudah diverifikasi atau belum
+            // if ($user->email_verified_at == null) {
+            //     // Jika belum terverifikasi, kembalikan response error
+            //     return ResponseApiFormatter::Error(null, 401, "Email belum terverifikasi, silahkan verifikasi email terlebih dahulu");
+            // }
+
+
+            // Buat token
+            $token = $user->createToken("authToken")->plainTextToken;
+
+            // Repsonse success
+            $responseData = [
+                "access_token" => $token,
+                "token_type" => "Bearer",
+                "user" => [
+                    "id" => $user->id,
+                    "fullname" => $user->fullname,
+                    "email" => $user->email,
+                    "profile_photo_path" => $user->profile_photo_path,
+                    "created_at" => $user->created_at,
+                    "updated_at" => $user->updated_at
+                ],
+                
+            ];
+
+            return ResponseApiFormatter::Success("Berhasil login", $responseData);
+
+
+        } catch(ValidationException $error) {
+            $errMessage = explode("(", $error->getMessage());
+            return ResponseApiFormatter::Error(null,422,trim($errMessage[0]));
+        } catch(\Exception $error) {
+            return ResponseApiFormatter::Error(null,500,"Sistem sedang bermasalah, silahkan coba lagi nanti");
+        }
+
 
     }
 
