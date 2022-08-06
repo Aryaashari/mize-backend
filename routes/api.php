@@ -15,6 +15,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Size
     Route::get("/sizes", [SizeController::class, "getSizes"]);
+    Route::post("/sizes", [SizeController::class, "createSize"]);
 
 });
 
