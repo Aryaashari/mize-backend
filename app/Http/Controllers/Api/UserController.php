@@ -163,4 +163,45 @@ class UserController extends Controller
         }
     }
 
+    public function editUser(Request $request) {
+        try {
+            $request->validate(
+                [
+                    "fullname" => "required|regex:/^[\pL\s]+$/u|min:3|max:30"
+                ],
+                [
+                    "fullname.required" => "Anda belum mengisi nama lengkap",
+                    "fullname.regex" => "Nama lengkap harus berupa huruf",
+                    "fullname.min" => "Nama lengkap minial 3 karakter",
+                    "fullname.max" => "Nama lengkap maksimal 30 karakter"
+                ]
+            );
+
+            // Ambil data user
+            $user = $request->user();
+
+            // Update fullname
+            $user->update(["fullname" => $request->fullname]);
+
+            // Response Success
+            $responseData = [
+                "id" => $user->id,
+                "fullname" => $user->fullname,
+                "email" => $user->email,
+                "profile_photo_path" => $user->profile_photo_path,
+                "created_at" => $user->created_at,
+                "updated_at" => $user->updated_at
+            
+            ];
+            return ResponseApiFormatter::Success("Berhasil edit user", $responseData);
+
+
+        } catch(ValidationException $error) {
+            $errMessage = explode("(", $error->getMessage());
+            return ResponseApiFormatter::Error(null, 422, trim($errMessage[0]));
+        } catch(\Exception $error) {
+            return ResponseApiFormatter::Error(null, 500, "Sistem sedang bermasalah, silahkan coba lagi nanti");
+        }
+    }
+
 }
