@@ -18,7 +18,15 @@ class SizeController extends Controller
             $user = $request->user();
 
             // Ambil data size berdasarkan user_id
-            $sizes = Size::where("user_id", $user->id)->get();
+            $sizes = Size::where("user_id", $user->id);
+
+            // Cek apakah ada query parameter search
+            if($request->search) {
+                $sizes = $sizes->where("name", "LIKE", "%". $request->search ."%");
+            }
+            
+            $sizes = $sizes->get();
+
             return ResponseApiFormatter::Success("Berhasil ambil data ukuran", $sizes);
 
         } catch(\Exception $err) {
