@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use App\Models\User;
+use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
@@ -139,6 +140,27 @@ class UserController extends Controller
         }
 
 
+    }
+
+    public function getUser(Request $request) {
+        try {
+
+            // Repsonse success
+            $user = $request->user();
+            $responseData = [
+                   "id" => $user->id,
+                   "fullname" => $user->fullname,
+                   "email" => $user->email,
+                   "profile_photo_path" => $user->profile_photo_path,
+                   "created_at" => $user->created_at,
+                   "updated_at" => $user->updated_at
+               
+           ];
+           return ResponseApiFormatter::Success("Berhasil ambil data user", $responseData);
+
+        } catch(\Exception $error) {
+            return ResponseApiFormatter::Error(null,500,"Sistem sedang bermasalah, silahkan coba lagi nanti");
+        }
     }
 
 }
