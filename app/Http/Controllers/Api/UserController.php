@@ -69,7 +69,7 @@ class UserController extends Controller
             $errMessage = explode("(", $error->getMessage());
             return ResponseApiFormatter::Error(null,422,trim($errMessage[0]));
         } catch(\Exception $error) {
-            return ResponseApiFormatter::Error(null,500,"Sistem sedang bermasalah, silahkan coba lagi nanti");
+            return ResponseApiFormatter::Error(null,500,"Sistem sedang bermasalah, silahkan coba beberapa saat lagi");
         }
 
     }
@@ -142,7 +142,7 @@ class UserController extends Controller
             $errMessage = explode("(", $error->getMessage());
             return ResponseApiFormatter::Error(null,422,trim($errMessage[0]));
         } catch(\Exception $error) {
-            return ResponseApiFormatter::Error(null,500,"Sistem sedang bermasalah, silahkan coba lagi nanti");
+            return ResponseApiFormatter::Error(null,500,"Sistem sedang bermasalah, silahkan coba beberapa saat lagi");
         }
 
 
@@ -166,7 +166,7 @@ class UserController extends Controller
            return ResponseApiFormatter::Success("Berhasil ambil data user", $responseData);
 
         } catch(\Exception $error) {
-            return ResponseApiFormatter::Error(null,500,"Sistem sedang bermasalah, silahkan coba lagi nanti");
+            return ResponseApiFormatter::Error(null,500,"Sistem sedang bermasalah, silahkan coba beberapa saat lagi");
         }
     }
 
@@ -208,7 +208,7 @@ class UserController extends Controller
             $errMessage = explode("(", $error->getMessage());
             return ResponseApiFormatter::Error(null, 422, trim($errMessage[0]));
         } catch(\Exception $error) {
-            return ResponseApiFormatter::Error(null, 500, "Sistem sedang bermasalah, silahkan coba lagi nanti");
+            return ResponseApiFormatter::Error(null, 500, "Sistem sedang bermasalah, silahkan coba beberapa saat lagi");
         }
     }
 
@@ -268,7 +268,7 @@ class UserController extends Controller
             $errMessage = explode("(", $error->getMessage());
             return ResponseApiFormatter::Error(null, 422, trim($errMessage[0]));
         } catch(\Exception $error) {
-            return ResponseApiFormatter::Error(null, 500, "Sistem sedang bermasalah, silahkan coba lagi nanti");
+            return ResponseApiFormatter::Error(null, 500, "Sistem sedang bermasalah, silahkan coba beberapa saat lagi");
         }
     }
 

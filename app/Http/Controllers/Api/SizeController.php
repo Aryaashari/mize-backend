@@ -11,17 +11,17 @@ use Illuminate\Http\Request;
 class SizeController extends Controller
 {
     
-    public function getSizesByUserId(Request $request) {
+    public function getSizes(Request $request) {
         try {
-            $userId = $request->input("user_id");
-            if ($userId == null) {
-                return ResponseApiFormatter::Error(null,404,"data ukuran tidak ada");
-            }
-            $sizes = Size::where("user_id", $userId)->get();
-            return ResponseApiFormatter::Success("get data success!", $sizes);
+            // Ambil data user
+            $user = $request->user();
+
+            // Ambil data size berdasarkan user_id
+            $sizes = Size::where("user_id", $user->id)->get();
+            return ResponseApiFormatter::Success("Berhasil ambil data ukuran", $sizes);
 
         } catch(\Exception $err) {
-            return ResponseApiFormatter::Error(null,500,"server error");
+            return ResponseApiFormatter::Error(null,500,"Sistem sedang bermasalah, silahkan coba beberapa saat lagi");
         }
     }
 

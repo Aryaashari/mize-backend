@@ -13,6 +13,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put("/user", [UserController::class, "editUser"]);
     Route::post("/user/photo", [UserController::class, "editUserPhoto"]);
 
+    // Size
+    Route::get("/sizes", [SizeController::class, "getSizes"]);
+
 });
 
 // Auth
