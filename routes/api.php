@@ -21,6 +21,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // User
     Route::get("/user", [UserController::class, "getUser"]);
     Route::put("/user", [UserController::class, "editUser"]);
+    Route::post("/user/photo", [UserController::class, "editUserPhoto"]);
 
 });
 

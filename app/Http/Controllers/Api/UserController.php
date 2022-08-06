@@ -7,9 +7,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use App\Models\User;
-use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rules\File;
 
 class UserController extends Controller
 {
@@ -194,6 +195,59 @@ class UserController extends Controller
             
             ];
             return ResponseApiFormatter::Success("Berhasil edit user", $responseData);
+
+
+        } catch(ValidationException $error) {
+            $errMessage = explode("(", $error->getMessage());
+            return ResponseApiFormatter::Error(null, 422, trim($errMessage[0]));
+        } catch(\Exception $error) {
+            return ResponseApiFormatter::Error(null, 500, "Sistem sedang bermasalah, silahkan coba lagi nanti");
+        }
+    }
+
+    public function editUserPhoto(Request $request) {
+        try {
+            $request->validate(
+                [
+                    "profile_photo" => "mimes:png,jpg,jpeg"
+                ],
+                [
+                    "profile_photo.required" => "Anda belum mengupload foto",
+                    "profile_photo.mimes" => "File harus berekstensi jpg, jpeg, atau png"
+                ]
+            );
+
+            // Ambil data user
+            $user = $request->user();
+
+            // Cek apakah ada file profile_photo
+            if ($request->file("profile_photo")) {
+                // Ambil file
+                $file = $request->file("profile_photo");
+            
+                // Buat nama file
+                $fileName = time() . "_userId(" . $user->id . ")." . $file->getClientOriginalExtension();
+
+                // Simpan ke folder users/profile di dalam public
+                $path = $file->storeAs("users/profile", $fileName, "public");
+
+                // Ubah path user
+                $user->profile_photo_path = $path;
+                $user->update();
+            }
+
+            // Response Success
+            $responseData = [
+                "id" => $user->id,
+                "fullname" => $user->fullname,
+                "email" => $user->email,
+                "profile_photo_path" => $user->profile_photo_path,
+                "profile_photo_url" => asset("") ."storage/". $user->profile_photo_path,
+                "created_at" => $user->created_at,
+                "updated_at" => $user->updated_at
+            ];
+            
+            return ResponseApiFormatter::Success("Berhasil edit profile", $responseData);
 
 
         } catch(ValidationException $error) {
