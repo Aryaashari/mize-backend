@@ -227,6 +227,13 @@ class UserController extends Controller
 
             // Cek apakah ada file profile_photo
             if ($request->file("profile_photo")) {
+
+                // Hapus file lama, ketika photo profile bukan default avatar
+                if ($user->profile_photo_path !== "users/profile/user_avatar.png") {
+                    Storage::disk("public")->delete($user->profile_photo_path);
+                }
+
+
                 // Ambil file
                 $file = $request->file("profile_photo");
             
@@ -236,7 +243,7 @@ class UserController extends Controller
                 // Simpan ke folder users/profile di dalam public
                 $path = $file->storeAs("users/profile", $fileName, "public");
 
-                // Ubah path user
+                // Ubah profile path user
                 $user->profile_photo_path = $path;
                 $user->update();
             }
