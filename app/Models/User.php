@@ -11,7 +11,7 @@ use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Size;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens;
     use HasFactory;
@@ -27,6 +27,7 @@ class User extends Authenticatable
     protected $fillable = [
         'fullname',
         'email',
+        'profile_photo_path',
         'password',
     ];
 
