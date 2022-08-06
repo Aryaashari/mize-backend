@@ -126,6 +126,7 @@ class UserController extends Controller
                     "fullname" => $user->fullname,
                     "email" => $user->email,
                     "profile_photo_path" => $user->profile_photo_path,
+                    "profile_photo_url" => asset("") ."storage/". $user->profile_photo_path,
                     "created_at" => $user->created_at,
                     "updated_at" => $user->updated_at
                 ],
@@ -155,6 +156,7 @@ class UserController extends Controller
                    "fullname" => $user->fullname,
                    "email" => $user->email,
                    "profile_photo_path" => $user->profile_photo_path,
+                   "profile_photo_url" => asset("") ."storage/". $user->profile_photo_path,
                    "created_at" => $user->created_at,
                    "updated_at" => $user->updated_at
                
@@ -192,6 +194,7 @@ class UserController extends Controller
                 "fullname" => $user->fullname,
                 "email" => $user->email,
                 "profile_photo_path" => $user->profile_photo_path,
+                "profile_photo_url" => asset("") ."storage/". $user->profile_photo_path,
                 "created_at" => $user->created_at,
                 "updated_at" => $user->updated_at
             
