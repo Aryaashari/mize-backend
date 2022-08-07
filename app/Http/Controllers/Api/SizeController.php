@@ -6,6 +6,7 @@ use App\Helper\ResponseApiFormatter;
 use App\Http\Controllers\Controller;
 use App\Models\Size;
 use App\Models\User;
+use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
@@ -96,6 +97,14 @@ class SizeController extends Controller
             return ResponseApiFormatter::Error(null, 500, "Server sedang bermasalah, silahkan coba lagi nanti");
         }
 
+    }
+
+    public function detailSize(Size $sizes) {
+        try {
+            return ResponseApiFormatter::Success("Berhasil ambil data detail ukuran", $sizes);
+        } catch(\Exception $error) {
+            return ResponseApiFormatter::Error(null, 500, "Sistem sedang bermasalah, silahkan coba lagi nanti");
+        }
     }
 
 }
