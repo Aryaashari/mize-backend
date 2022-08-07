@@ -195,6 +195,22 @@ class SizeController extends Controller
         } catch(ValidationException $error) {
             $errMessage = explode("(", $error->getMessage());
             return ResponseApiFormatter::Error(null, 422, trim($errMessage[0]));
+        } catch(\Exception $error) {
+            return ResponseApiFormatter::Error(null, 500, "Sistem sedang bermasalah, silahkan coba lagi nanti");
+        }
+
+    }
+
+    public function deleteSize(Size $size) {
+
+        try {
+            // Delete size
+            $size->delete();
+
+            // Response Success
+            return ResponseApiFormatter::Success("Berhasil hapus data ukuran");
+        } catch(\Exception $error) {
+            return ResponseApiFormatter::Error(null, 500, "Sistem sedang bermasalah, silahkan coba lagi nanti");
         }
 
     }
