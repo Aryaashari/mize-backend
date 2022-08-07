@@ -99,12 +99,104 @@ class SizeController extends Controller
 
     }
 
-    public function detailSize(Size $sizes) {
+    public function detailSize(Size $size) {
         try {
-            return ResponseApiFormatter::Success("Berhasil ambil data detail ukuran", $sizes);
+            return ResponseApiFormatter::Success("Berhasil ambil data detail ukuran", $size);
         } catch(\Exception $error) {
             return ResponseApiFormatter::Error(null, 500, "Sistem sedang bermasalah, silahkan coba lagi nanti");
         }
+    }
+
+    public function updateSize(Request $request, Size $size) {
+
+        try {
+            $request->validate(
+                [
+                    "name" => "required",
+                    "panjang_badan" => "required|numeric|between:0.1,999.999",
+                    "lebar_bahu" => "required|numeric|between:0.1,999.999",
+                    "panjang_lengan" => "required|numeric|between:0.1,999.999",
+                    "lingkar_lengan" => "required|numeric|between:0.1,999.999",
+                    "lingkar_perut" => "required|numeric|between:0.1,999.999",
+                    "lingkar_dada" => "required|numeric|between:0.1,999.999",
+                    "lingkar_pesak" => "required|numeric|between:0.1,999.999",
+                    "lingkar_panggul" => "required|numeric|between:0.1,999.999",
+                    "lingkar_paha" => "required|numeric|between:0.1,999.999",
+                    "lingkar_lutut" => "required|numeric|between:0.1,999.999",
+                    "lingkar_tumit" => "required|numeric|between:0.1,999.999",
+                    "panjang_celana" => "required|numeric|between:0.1,999.999",
+                ],
+
+                [
+                    "name.required" => "Anda belum mengisi nama ukuran",
+                    "panjang_badan.required" => "Anda belum mengisi panjang badan",
+                    "lebar_bahu.required" => "Anda belum mengisi lebar bahu",
+                    "panjang_lengan.required" => "Anda belum mengisi panjang lengan",
+                    "lingkar_lengan.required" => "Anda belum mengisi lingkar lengan",
+                    "lingkar_perut.required" => "Anda belum mengisi lingkar perut",
+                    "lingkar_dada.required" => "Anda belum mengisi lingkar dada",
+                    "lingkar_pesak.required" => "Anda belum mengisi lingkar pesak",
+                    "lingkar_panggul.required" => "Anda belum mengisi lingkar panggul",
+                    "lingkar_paha.required" => "Anda belum mengisi lingkar paha",
+                    "lingkar_lutut.required" => "Anda belum mengisi lingkar lutut",
+                    "lingkar_tumit.required" => "Anda belum mengisi lingkar tumit",
+                    "panjang_celana.required" => "Anda belum mengisi panjang celana",
+
+                    "panjang_badan.numeric" => "Panjang badan harus berupa angka",
+                    "lebar_bahu.numeric" => "Lebar bahu harus berupa angka",
+                    "panjang_lengan.numeric" => "Panjang lengan harus berupa angka",
+                    "lingkar_lengan.numeric" => "Lingkar lengan harus berupa angka",
+                    "lingkar_perut.numeric" => "Lingkar perut harus berupa angka",
+                    "lingkar_dada.numeric" => "Lingkar dada harus berupa angka",
+                    "lingkar_pesak.numeric" => "Lingkar pesak harus berupa angka",
+                    "lingkar_panggul.numeric" => "Lingkar panggul harus berupa angka",
+                    "lingkar_paha.numeric" => "Lingkar paha harus berupa angka",
+                    "lingkar_lutut.numeric" => "Lingkar lutut harus berupa angka",
+                    "lingkar_tumit.numeric" => "Lingkar tumit harus berupa angka",
+                    "panjang_celana.numeric" => "Panjang celana harus berupa angka",
+                    
+
+                    "panjang_badan.between" => "Panjang badan harus di rentang 0.1 - 999.999",
+                    "lebar_bahu.between" => "Lebar bahu harus di rentang 0.1 - 999.999",
+                    "panjang_lengan.between" => "Panjang lengan harus di rentang 0.1 - 999.999",
+                    "lingkar_lengan.between" => "Lingkar lengan harus di rentang 0.1 - 999.999",
+                    "lingkar_perut.between" => "Lingkar perut harus di rentang 0.1 - 999.999",
+                    "lingkar_dada.between" => "Lingkar dada harus di rentang 0.1 - 999.999",
+                    "lingkar_pesak.between" => "Lingkar pesak harus di rentang 0.1 - 999.999",
+                    "lingkar_panggul.between" => "Lingkar panggul harus di rentang 0.1 - 999.999",
+                    "lingkar_paha.between" => "Lingkar paha harus di rentang 0.1 - 999.999",
+                    "lingkar_lutut.between" => "Lingkar lutut harus di rentang 0.1 - 999.999",
+                    "lingkar_tumit.between" => "Lingkar tumit harus di rentang 0.1 - 999.999",
+                    "panjang_celana.between" => "Panjang celana harus di rentang 0.1 - 999.999",
+                ]
+            );
+
+            // Update data size
+            $size->name = $request->name;
+            $size->note = $request->note;
+            $size->panjang_badan = $request->panjang_badan;
+            $size->lebar_bahu = $request->lebar_bahu;
+            $size->panjang_lengan = $request->panjang_lengan;
+            $size->lingkar_lengan = $request->lingkar_lengan;
+            $size->lingkar_perut = $request->lingkar_perut;
+            $size->lingkar_dada = $request->lingkar_dada;
+            $size->lingkar_pesak = $request->lingkar_pesak;
+            $size->lingkar_panggul = $request->lingkar_panggul;
+            $size->lingkar_paha = $request->lingkar_paha;
+            $size->lingkar_lutut = $request->lingkar_lutut;
+            $size->lingkar_tumit = $request->lingkar_tumit;
+            $size->panjang_celana = $request->panjang_celana;
+            $size->update();
+
+            // Response Success
+            return ResponseApiFormatter::Success("Berhasil update data ukuran", $size);
+
+
+        } catch(ValidationException $error) {
+            $errMessage = explode("(", $error->getMessage());
+            return ResponseApiFormatter::Error(null, 422, trim($errMessage[0]));
+        }
+
     }
 
 }
