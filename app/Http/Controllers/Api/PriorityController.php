@@ -50,16 +50,15 @@ class PriorityController extends Controller
 
     }
 
-    public function getDetailPriority(Request $request, Size $size) {
+    public function getDetailPriority(Priority $priority) {
 
         try {
 
-            // Ambil data priority berdasarkan ukuran
-            $priority = Priority::where("size_id", $size->id)->first();
+            // Ambil data ukuran berdasarkan prioritas
+            $priority->size;
 
             // Response Success
             return ResponseApiFormatter::Success("Berhasil ambil data detail prioritas", [
-                "size" => $size,
                 "priority" => $priority
             ]);
 
@@ -69,12 +68,13 @@ class PriorityController extends Controller
 
     }
 
-    public function createPriority(Request $request, Size $size) {
+    public function createPriority(Request $request) {
         
         try {
 
             $request->validate(
                 [
+                    "size_id" => "required",
                     "due_dates" => "required|date_format:Y-m-d H:i:s"
                 ],
                 [
@@ -82,6 +82,9 @@ class PriorityController extends Controller
                     "due_dates.date_format" => "Format waktu [tahun-bulan-tanggal jam:menit:detik]"
                 ]
             );
+
+            // Ambil data ukuran
+            $size = Size::where("id", $request->size_id)->first();
 
             // Cek apakah data ukuran sudah memiliki prioritas
             if ($size->priority != null) {
@@ -91,7 +94,7 @@ class PriorityController extends Controller
 
             // Buat data prioritas
             $priority = Priority::create([
-                "size_id" => $size->id,
+                "size_id" => $request->size_id,
                 "due_dates" => $request->due_dates 
             ]);
 
@@ -101,11 +104,11 @@ class PriorityController extends Controller
                 "size_id" => $priority->size_id,
                 "due_dates" => $priority->due_dates,
                 "created_at" => $priority->created_at,
-                "updated_at" => $priority->updated_at
+                "updated_at" => $priority->updated_at,
+                "size" => $size
             ];
 
             return ResponseApiFormatter::Success("Berhasil tambah data prioritas", [
-                "size" => $size,
                 "priority" => $responsePriority
             ]);
 

@@ -22,8 +22,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Priority
     Route::get("/priority", [PriorityController::class, "getAllPriority"]);
-    Route::get("/priority/size/{size}", [PriorityController::class, "getDetailPriority"]);
-    Route::post("/priority/size/{size}", [PriorityController::class, "createPriority"]);
+    Route::get("/priority/{priority}", [PriorityController::class, "getDetailPriority"]);
+    Route::post("/priority", [PriorityController::class, "createPriority"]);
 
 });
 
