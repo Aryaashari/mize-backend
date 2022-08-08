@@ -8,6 +8,7 @@ use App\Models\Size;
 use App\Models\User;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\ValidationException;
 
 class SizeController extends Controller
@@ -100,6 +101,9 @@ class SizeController extends Controller
     }
 
     public function detailSize(Size $size) {
+        // authorization
+        Gate::authorize("getDetail", $size);
+
         try {
             return ResponseApiFormatter::Success("Berhasil ambil data detail ukuran", $size);
         } catch(\Exception $error) {
@@ -108,6 +112,8 @@ class SizeController extends Controller
     }
 
     public function updateSize(Request $request, Size $size) {
+        // authorization
+        Gate::authorize("update", $size);
 
         try {
             $request->validate(
@@ -202,6 +208,8 @@ class SizeController extends Controller
     }
 
     public function deleteSize(Size $size) {
+        // authorization
+        Gate::authorize("delete", $size);
 
         try {
             // Delete size
