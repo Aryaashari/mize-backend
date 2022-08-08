@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Priority;
 use App\Models\Size;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\ValidationException;
 
 class PriorityController extends Controller
@@ -51,6 +52,8 @@ class PriorityController extends Controller
     }
 
     public function getDetailPriority(Priority $priority) {
+        // Authorization
+        Gate::authorize("getDetail", $priority);
 
         try {
 
@@ -123,6 +126,8 @@ class PriorityController extends Controller
     }
 
     public function updatePriority(Request $request, Priority $priority) {
+        // Authorization
+        Gate::authorize("update", $priority);
 
         try {
             $request->validate(
@@ -156,6 +161,8 @@ class PriorityController extends Controller
     }
 
     public function deletePriority(Priority $priority) {
+        // Authorization
+        Gate::authorize("delete", $priority);
 
         try {
             // Hapus data priority
