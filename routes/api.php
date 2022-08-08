@@ -25,6 +25,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get("/priority/{priority}", [PriorityController::class, "getDetailPriority"]);
     Route::post("/priority", [PriorityController::class, "createPriority"]);
     Route::put("/priority/{priority}", [PriorityController::class, "updatePriority"]);
+    Route::delete("/priority/{priority}", [PriorityController::class, "deletePriority"]);
 
 });
 

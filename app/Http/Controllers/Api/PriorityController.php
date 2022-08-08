@@ -155,5 +155,19 @@ class PriorityController extends Controller
 
     }
 
+    public function deletePriority(Priority $priority) {
+
+        try {
+            // Hapus data priority
+            $priority->delete();
+    
+            // Response Success
+            return ResponseApiFormatter::Success("Berhasil hapus data prioritas");
+        } catch(\Exception $error) {
+            return ResponseApiFormatter::Error(null, 500, "Sistem sedang error, silahkan coba lagi nanti");
+        }
+
+    }
+
 
 }
