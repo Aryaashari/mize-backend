@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\PriorityController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\SizeController;
+use App\Models\Priority;
 
 Route::middleware('auth:sanctum')->group(function () {
 
@@ -21,6 +22,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Priority
     Route::get("/priority", [PriorityController::class, "getAllPriority"]);
+    Route::get("/priority/size/{size}", [PriorityController::class, "getDetailPriority"]);
 
 });
 

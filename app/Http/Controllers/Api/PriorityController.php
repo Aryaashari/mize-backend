@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Helper\ResponseApiFormatter;
 use App\Http\Controllers\Controller;
 use App\Models\Priority;
+use App\Models\Size;
 use Illuminate\Http\Request;
 
 class PriorityController extends Controller
@@ -42,6 +43,25 @@ class PriorityController extends Controller
 
             // Response success
             return ResponseApiFormatter::Success("Berhasil ambil data prioritas", $priorities);
+        } catch(\Exception $error) {
+            return ResponseApiFormatter::Error(null, 500, "Sistem sedang bermasalah, silahkan coba lagi nanti");
+        }
+
+    }
+
+    public function getDetailPriority(Request $request, Size $size) {
+
+        try {
+
+            // Ambil data priority berdasarkan ukuran
+            $priority = Priority::where("size_id", $size->id)->first();
+
+            // Response Success
+            return ResponseApiFormatter::Success("Berhasil ambil data detail prioritas", [
+                "size" => $size,
+                "priority" => $priority
+            ]);
+
         } catch(\Exception $error) {
             return ResponseApiFormatter::Error(null, 500, "Sistem sedang bermasalah, silahkan coba lagi nanti");
         }
