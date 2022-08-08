@@ -1,8 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\PriorityController;
 use App\Http\Controllers\Api\UserController;
-use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\SizeController;
 
@@ -19,6 +18,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get("/sizes/{size}", [SizeController::class, "detailSize"]);
     Route::put("/sizes/{size}", [SizeController::class, "updateSize"]);
     Route::delete("/sizes/{size}", [SizeController::class, "deleteSize"]);
+
+    // Priority
+    Route::get("/priority", [PriorityController::class, "getAllPriority"]);
 
 });
 
