@@ -122,5 +122,38 @@ class PriorityController extends Controller
 
     }
 
+    public function updatePriority(Request $request, Priority $priority) {
+
+        try {
+            $request->validate(
+                [
+                    "due_dates" => "required|date_format:Y-m-d H:i:s"
+                ],
+                [
+                    "due_dates.required" => "Anda belum menambahkan tenggat waktu",
+                    "due_dates.date_format" => "Format waktu [tahun-bulan-hari jam-menit-detik]"
+                ]
+            );
+    
+            // Update data prioritas
+            $priority->due_dates = $request->due_dates;
+            $priority->update();
+    
+            // Ambil data ukuran berdasarkan prioritas
+            $priority->size;
+    
+            // Response Success
+            return ResponseApiFormatter::Success("Berhasil update data prioritas", [
+                "priority" => $priority
+            ]);
+        } catch(ValidationException $error) {
+            $errMessage = explode("(", $error->getMessage());
+            return ResponseApiFormatter::Error(null, 422, trim($errMessage[0]));
+        } catch(\Exception $error) {
+            return ResponseApiFormatter::Error(null, 500, "Sistem sedang error, silahkan coba lagi nanti");
+        }
+
+    }
+
 
 }
