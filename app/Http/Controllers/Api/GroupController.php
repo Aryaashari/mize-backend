@@ -28,4 +28,19 @@ class GroupController extends Controller
 
     }
 
+    public function getDetailGroup(Request $request, Group $group) {
+
+        try {
+
+            // Panggil semua data ukuran yang dimiliki group
+            $group->sizes;
+    
+            // Response Success
+            return ResponseApiFormatter::Success("Berhasil ambil detail group", $group);
+        } catch(\Exception $error) {
+            return ResponseApiFormatter::Error(null, 500, "Sistem sedang bermasalah, silahkan coba lagi nanti");
+        }
+
+    }
+
 }
