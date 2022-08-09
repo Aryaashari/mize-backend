@@ -1,10 +1,10 @@
 <?php
 
+use App\Http\Controllers\Api\GroupController;
 use App\Http\Controllers\Api\PriorityController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\SizeController;
-use App\Models\Priority;
 
 Route::middleware('auth:sanctum')->group(function () {
 
@@ -26,6 +26,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post("/priority", [PriorityController::class, "createPriority"]);
     Route::put("/priority/{priority}", [PriorityController::class, "updatePriority"]);
     Route::delete("/priority/{priority}", [PriorityController::class, "deletePriority"]);
+
+    // Group
+    Route::get("/groups", [GroupController::class, "getGroup"]);
 
 });
 
