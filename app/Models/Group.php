@@ -10,7 +10,7 @@ class Group extends Model
 {
     use HasFactory;
 
-    protected $fillable = ["name_group"];
+    protected $fillable = ["user_id", "name_group", "due_dates"];
 
 
     // Relation to group_size pivot table
