@@ -12,6 +12,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get("/user", [UserController::class, "getUser"]);
     Route::put("/user", [UserController::class, "editUser"]);
     Route::post("/user/photo", [UserController::class, "editUserPhoto"]);
+    Route::post("/logout", [UserController::class, "logout"]);
 
     // Size
     Route::get("/sizes", [SizeController::class, "getSizes"]);

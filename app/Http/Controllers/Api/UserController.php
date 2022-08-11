@@ -148,6 +148,19 @@ class UserController extends Controller
 
     }
 
+    public function logout(Request $request) {
+        try {
+
+            // Hapus token user
+            $request->user()->currentAccessToken()->delete();
+    
+            // Response Success
+            return ResponseApiFormatter::Success("Berhasil logout");
+        } catch(\Exception $error) {
+            return ResponseApiFormatter::Error(null,500,"Sistem sedang bermasalah, silahkan coba beberapa saat lagi");
+        }
+    }
+
     public function getUser(Request $request) {
         try {
 
@@ -271,5 +284,6 @@ class UserController extends Controller
             return ResponseApiFormatter::Error(null, 500, "Sistem sedang bermasalah, silahkan coba beberapa saat lagi");
         }
     }
+
 
 }
