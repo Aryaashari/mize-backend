@@ -89,6 +89,11 @@ class PriorityController extends Controller
             // Ambil data ukuran
             $size = Size::where("id", $request->size_id)->first();
 
+            // Cek apakah data ukuran null atau id ukuran tidak dimiliki user
+            if ($size == null || Gate::forUser($request->user())->denies("getDetail", $size)) {
+                return ResponseApiFormatter::Error(null, 404, "Data ukuran tidak ditemukan");
+            }
+
             // Cek apakah data ukuran sudah memiliki prioritas
             if ($size->priority != null) {
                 // Jika sudah maka kembalikan error
