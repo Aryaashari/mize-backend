@@ -163,10 +163,28 @@ class GroupController extends Controller
                 "sizes" => $group->sizes
             ];
     
-            return ResponseApiFormatter::Success("Berhasil tambah data group", $responseGroup);
+            return ResponseApiFormatter::Success("Berhasil edit data group", $responseGroup);
         } catch(ValidationException $error) {
             $errMessage = explode("(", $error->getMessage());
             return ResponseApiFormatter::Error(null, 422, trim($errMessage[0]));
+        } catch(\Exception $error) {
+            return ResponseApiFormatter::Error(null,500,"Sistem sedang bermasalah, silahkan coba lagi nanti");
+        }
+
+    }
+
+    public function deleteGroup(Group $group) {
+
+        try {
+
+            // Hapus semua id ukuran di tabel pivot
+            $group->sizes()->detach();
+    
+            // Hapus data grup
+            $group->delete();
+
+            // Response success
+            return ResponseApiFormatter::Success("Berhasil hapus data grup");
         } catch(\Exception $error) {
             return ResponseApiFormatter::Error(null,500,"Sistem sedang bermasalah, silahkan coba lagi nanti");
         }
