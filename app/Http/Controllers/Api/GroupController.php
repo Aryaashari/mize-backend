@@ -6,8 +6,8 @@ use App\Helper\ResponseApiFormatter;
 use App\Http\Controllers\Controller;
 use App\Models\Group;
 use App\Models\Size;
-use GuzzleHttp\Promise\Create;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\ValidationException;
 
 class GroupController extends Controller
@@ -32,6 +32,8 @@ class GroupController extends Controller
     }
 
     public function getDetailGroup(Request $request, Group $group) {
+        // Authorization
+        Gate::authorize("getDetail", $group);
 
         try {
 
@@ -65,13 +67,13 @@ class GroupController extends Controller
                 ]
             );
 
-            // Ambil semua id data ukuran
-            $sizes = Size::pluck("id")->toArray();
-
             // Looping semua element size_ids
             foreach($request->size_ids as $id) {
-                // Cek apakah id tidak terdapat di database?
-                if (!in_array($id, $sizes)) {
+                // Ambil data ukuran yang ada di database berdasarkan id
+                $size = Size::find($id);
+
+                // Cek data size bernilai null atau user tidak memiliki izin untuk mengakses data ukuran
+                if ($size == null || Gate::forUser($request->user())->denies('getDetail', $size)) {
                     // Response error
                     return ResponseApiFormatter::Error(null, 422, "Terdapat id ukuran yang tidak valid");
                 }
@@ -111,6 +113,9 @@ class GroupController extends Controller
 
     public function updateGroup(Request $request, Group $group) {
 
+        // Authorization
+        Gate::authorize("update", $group);
+
         try {
             $request->validate(
                 [
@@ -127,13 +132,13 @@ class GroupController extends Controller
                 ]
             );
     
-            // Ambil semua id data ukuran
-            $sizes = Size::pluck("id")->toArray();
-    
             // Looping semua element size_ids
             foreach($request->size_ids as $id) {
-                // Cek apakah id tidak terdapat di database?
-                if (!in_array($id, $sizes)) {
+                // Ambil data ukuran yang ada di database berdasarkan id
+                $size = Size::find($id);
+
+                // Cek data size bernilai null atau user tidak memiliki izin untuk mengakses data ukuran
+                if ($size == null || Gate::forUser($request->user())->denies('getDetail', $size)) {
                     // Response error
                     return ResponseApiFormatter::Error(null, 422, "Terdapat id ukuran yang tidak valid");
                 }
@@ -174,6 +179,9 @@ class GroupController extends Controller
     }
 
     public function deleteGroup(Group $group) {
+
+        // Authorization
+        Gate::authorize("delete", $group);
 
         try {
 

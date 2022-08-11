@@ -6,6 +6,8 @@ namespace App\Providers;
 
 use App\Models\Priority;
 use App\Models\Size;
+use App\Models\Group;
+use App\Policies\GroupPolicy;
 use App\Policies\PriorityPolicy;
 use App\Policies\SizePolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -21,6 +23,7 @@ class AuthServiceProvider extends ServiceProvider
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
         Size::class => SizePolicy::class,
         Priority::class => PriorityPolicy::class,
+        Group::class => GroupPolicy::class,
     ];
 
     /**
