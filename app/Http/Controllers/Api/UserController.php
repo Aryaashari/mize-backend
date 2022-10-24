@@ -55,11 +55,13 @@ class UserController extends Controller
 
             // Response Success
             $responseData = [
-                "id" => $user->id,
-                "fullname" => $user->fullname,
-                "email" => $user->email,
-                "created_at" => $user->created_at,
-                "updated_at" => $user->updated_at
+                "user" => [
+                    "id" => $user->id,
+                    "fullname" => $user->fullname,
+                    "email" => $user->email,
+                    "created_at" => $user->created_at,
+                    "updated_at" => $user->updated_at
+                ]
             ];
 
             return ResponseApiFormatter::Success("Berhasil tambah data user", $responseData);
